@@ -25,7 +25,7 @@ class InterpreterTest {
 
     @Test
     void executesInheritanceAndInterface() throws IOException {
-        String output = run("test2.pas", "");
+        String output = run("test_inheritence_interfaces.pas", "");
         assertEquals("1\n2\n", output);
     }
 

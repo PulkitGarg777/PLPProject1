@@ -1,0 +1,11 @@
+.gradle/
+/build/
+/bin/
+/out/
+gradle-*-bin.zip
+gradle-7.6.4/
+gradle-8.7/
+.idea/
+*.iml
+.vscode/
+*.class

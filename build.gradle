@@ -1,0 +1,45 @@
+plugins {
+    id 'java'
+    id 'application'
+}
+
+group = 'delphi'
+version = '1.0.0'
+
+repositories {
+    mavenCentral()
+}
+
+configurations {
+    antlr
+}
+
+dependencies {
+    antlr 'org.antlr:antlr4:4.13.1'
+    implementation 'org.antlr:antlr4-runtime:4.13.1'
+    testImplementation 'org.junit.jupiter:junit-jupiter:5.10.2'
+}
+
+def generatedDir = "$buildDir/generated-src/antlr/main"
+
+tasks.register('generateGrammarSource', JavaExec) {
+    classpath = configurations.antlr
+    mainClass = 'org.antlr.v4.Tool'
+    args = ['-visitor', '-no-listener', '-package', 'delphi', '-o', generatedDir, 'src/main/antlr/Delphi.g4']
+    inputs.file('src/main/antlr/Delphi.g4')
+    outputs.dir(generatedDir)
+}
+
+sourceSets.main.java.srcDir generatedDir
+
+tasks.compileJava {
+    dependsOn tasks.named('generateGrammarSource')
+}
+
+application {
+    mainClass = 'delphi.Main'
+}
+
+tasks.test {
+    useJUnitPlatform()
+}
